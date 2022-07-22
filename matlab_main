@@ -1,0 +1,149 @@
+% Initialize Parameters 
+n = 1000;                  % Number of locations to evaluate bridge failure 
+L = 1250;                  % Length of bridge 
+numCrossSections = 1;      % Number of different Cross Sections
+  
+x = linspace(0, L, n);     % Define x coordinate 
+  
+%% 2. Define cross-sections 
+% Cross Section A
+dx = n/L;
+xc = [1 dx*400 dx*L]; % x locations of changes in cross section
+I = zeros(1, length(x));
+yBar = zeros(1, length(x));
+Qglue = zeros(1, length(x));
+Qmax = zeros(1, length(x));
+%Cross Section A
+a = [400 400 400];   % Diaphragm Spacing 
+bVector = [100 1.27 1.27 10 10];
+hVector = [1.27 120 120 1.27 1.27];
+yVector = [120.635 60 60 119.365 119.365]; % distances between local centroid of subcomponents of sections from bottom
+[I, yBar] = SectionProperties( I, yBar, xc(1), xc(2), bVector, hVector, yVector);
+cutoffAreaCent = [ 1.27*yBar(1), 1.27*yBar(1)];
+yCentCutoff = [ yBar(1)/2, yBar(1)/2];
+cutoffAreaGlue = [127];
+yGlue = [121.27-yBar(1)-0.635]; % centroid of the cutoff area 
+[Qmax, Qglue] = calculateQ( Qmax, Qglue, xc(1), xc(2), cutoffAreaCent, cutoffAreaGlue, yCentCutoff, yGlue)
+Qmax =
+	1.0e+03 *
+
+    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567    8.1567
+Qglue =
+	1.0e+03 *
+
+    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427    5.1427
+% Cross Section B 
+a = [400 400 400];   % Diaphragm Spacing 
+bVector = [100 1.27 1.27 10 10 10 10 70 70];
+hVector = [1.27 117.46 117.46 1.27 1.27 1.27 1.27 1.27 1.27];
+yVector = [120.635 61.27 61.27 119.365 119.365 3.175 3.175 1.905 0.635]; % distances between local centroid of subcomponents of sections from bottom
+[I, yBar] = SectionProperties( I, yBar, xc(2), xc(3), bVector, hVector, yVector);
+cutoffAreaCent = [ 127 12.7 12.7 (120-yBar(900))*1.27 (120-yBar(900))*1.27];
+yCentCutoff = [ 121.27-yBar(900)-0.635 120-yBar(900)-0.635 120-yBar(900)-0.635 120-yBar(900)/2 120-yBar(900)/2];
+cutoffAreaGlue = [127];
+yGlue = [121.27-yBar(1)-0.635]; % centroid of the cutoff area 
+[Qmax, Qglue] = calculateQ( Qmax, Qglue, xc(2), xc(3), cutoffAreaCent, cutoffAreaGlue, yCentCutoff, yGlue)
+Qmax =
+	1.0e+04 *
+
+    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157    0.8157
+Qglue =
+	1.0e+04 *
+
+    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143    0.5143
+I(1)
+ans = 7.3675e+05
+I(900)
+ans = 1.5873e+06
+yBar(1)
+ans = 80.1411
+yBar(900)
+ans = 56.4858
+Qmax(1)
+ans = 8.1567e+03
+Qglue(1)
+ans = 5.1427e+03
+Qmax(900)
+ans = 2.4547e+04
+Qglue(900)
+ans = 5.1427e+03
+%% 3. Define Material Properties 
+SigT = 30; 
+SigC = 6; 
+E    = 4000; 
+TauU = 4; 
+TauG = 2; 
+mu   = 0.2; 
+function [I, yBar] = SectionProperties( I, yBar, xStart, xEnd, bVector, hVector, yVector ) % Calculates important sectional properties. Including but not limited to ybar, I, Q, etc. 
+    % Input: Geometric Inputs. Format will depend on user 
+    % Output: Sectional Properties at every value of x. Each property is a 1-D array of length n
+    % finding global centroid
+    for i = xStart : xEnd
+        sumAY = 0;
+        sumA = 0;
+        for j = 1:length(bVector)
+            sumAY = sumAY + bVector(j) * hVector(j) * yVector(j);
+            sumA = sumA + bVector(j) * hVector(j);
+        end
+        yBar(i) = sumAY/sumA; 
+        %finding I
+        for j = 1:length(bVector)
+            I(i) = I(i) + (bVector(j)*hVector(j)^3)/12 + bVector(j)*hVector(j)*(yVector(j) - yBar(i))^2;
+        end
+    end
+end
+function [Qmax, Qglue] = calculateQ( Qmax, Qglue, xStart, xEnd, cutoffAreaCent, cutoffAreaGlue, yCentCutoff, yGlueCutoff)
+     
+    for i = xStart : xEnd
+        %finding Q at centroid
+        for j = 1:length(cutoffAreaCent)
+            Qmax(i) = Qmax(i) + cutoffAreaCent(j)*yCentCutoff(j); 
+        end
+        %finding Q at glue
+        for j = 1:length(cutoffAreaGlue)
+            Qglue(i) = Qglue(i) + cutoffAreaGlue(j)*yGlueCutoff(j);
+        end
+    end
+end
+function [] = VisualizePL(x, SFD_PL, BMD_PL, V_Mat, V_Glue, V_Buck, M_MatT, M_MatC, M_Buck1, M_Buck2, M_Buck3, Pf)  
+    %Plots all outputs of design process 
+    figure;
+    hold on;
+    %shear force diagram
+    subplot(2, 3, 1)
+    plot(x, SFD_PL, "k")
+    title = strcat("SFD from P = ", floor(Pf), "N Pfail = ", Pf, " N");
+    title(title)
+    
+    %shear force vs mat shear fail
+    subplot(2, 3, 2)
+    plot(x, SFD_PL, "k")
+    plot(x, V_Mat, "r")
+    plot(x, V_Glue, "g")
+    legend("Shear Force", "Matboard Shear Failure", "Glue Shear Failure")
+    title("SFD vs Material Shear Failure")
+    subplot(2, 3, 3)
+    plot(x, SFD_PL, "k")
+    plot(x, V_Buck, "r")
+    legend("Shear Force", "Buckling Failure")
+    title("SFD vs Shear Buckling Failure")
+    
+    %BMD Diagrams
+    subplot(2, 3, 4)
+    plot(x, BMD_PL, "k")
+    title = strcat("BMD from P = ", int2str(floor(Pf)), "N Pfail = ", Pf, " N");
+    title(title)
+    subplot(2, 3, 5)
+    plot(x, BMD_PL, "k")
+    plot(x, M_MatT, "r")
+    plot(x, M_MatC, "b")
+    legend("Bending Moment", "Matboard Tension Failure", "Matboard Compression Failure")
+    title("BFD vs Material Moment Failures")
+    subplot(2, 3, 6)
+    plot(x, BMD_PL, "k")
+    plot(x, M_Buck1, "r")
+    plot(x, M_Buck2, "b")
+    plot(x, M_Buck3, "g")
+    legend("Bending Moment", "Mid Flange Buckling", "Side Flange Buckling", "Web Compression Buckling")
+    title("BMD vs Moment Buckling Failures")
+end
